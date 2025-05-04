@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BizBot  - AI DevOps Assistant</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Base Styles */
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --dark: #1a1a2e;
+      --light: #f8f9fa;
+      --success: #4cc9f0;
+      --text: #2b2d42;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7ff;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 100px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      opacity: 0.9;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background-color: white;
+      color: var(--primary);
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 80px 0;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .section-header h2 {
+      font-size: 2.5rem;
+      color: var(--dark);
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-header h2::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+    
+    .section-header p {
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .feature-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--accent), var(--success));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: white;
+      font-size: 1.8rem;
+    }
+    
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+    
+    /* Inspiration Section */
+    .inspiration {
+      background-color: var(--light);
+      padding: 80px 0;
+      text-align: center;
+    }
+    
+    .inspiration h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--dark);
+    }
+    
+    .inspiration p {
+      max-width: 700px;
+      margin: 0 auto 40px;
+      color: #666;
+    }
+    
+    .inspiration-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .inspiration-card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .inspiration-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .inspiration-card i {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+    
+    .inspiration-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #f5f7ff, #e6e9ff);
+    }
+    
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .testimonial-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      position: relative;
+    }
+    
+    .testimonial-card::before {
+      content: """;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 4rem;
+      color: rgba(67, 97, 238, 0.1);
+      font-family: serif;
+      line-height: 1;
+    }
+    
+    .testimonial-content {
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+    }
+    
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-right: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .author-info h4 {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+    
+    .author-info p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    /* Use Cases Section */
+    .use-cases {
+      padding: 80px 0;
+    }
+    
+    .use-cases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .use-case-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .use-case-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .use-case-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+    
+    .use-case-card ul {
+      list-style-position: inside;
+      margin-left: 10px;
+    }
+    
+    .use-case-card li {
+      margin-bottom: 8px;
+    }
+    
+    /* Pricing Section */
+    .pricing {
+      padding: 80px 0;
+      background: var(--light);
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .pricing-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .pricing-card.featured {
+      border: 2px solid var(--accent);
+      transform: scale(1.05);
+    }
+    
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .pricing-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+    
+    .price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    
+    .price span {
+      font-size: 1rem;
+      color: #666;
+    }
+    
+    .pricing-features {
+      margin: 30px 0;
+    }
+    
+    .pricing-features li {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--dark);
+      color: white;
+      padding: 60px 0 30px;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .footer-column h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .footer-column h3::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--accent);
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-column ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-column ul li a:hover {
+      color: white;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .social-links a {
+      color: white;
+      background: rgba(255,255,255,0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      background: var(--accent);
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    
+    /* Chatbot Container - Initially Hidden */
+    #chatbot-container {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 380px;
+      height: 600px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+    
+    /* Chatbot Header */
+    .chat-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .bot-avatar {
+      width: 40px;
+      height: 40px;
+      background: white;
+      color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .bot-info h2 {
+      font-size: 16px;
+      margin: 0;
+      font-weight: 600;
+    }
+    
+    .bot-info p {
+      font-size: 12px;
+      opacity: 0.9;
+      margin: 0;
+    }
+    
+    .header-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .icon-btn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    
+    .icon-btn:hover {
+      opacity: 1;
+    }
+    
+    /* Chat Body */
+    .chat-body {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #f9fafb;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .welcome-message {
+      background: #e0e7ff;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      align-self: flex-start;
+    }
+    
+    .welcome-message p {
+      margin-bottom: 10px;
+    }
+    
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .quick-replies button {
+      background: white;
+      border: 1px solid #d1d5db;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .quick-replies button:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    /* Message Bubbles */
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      border-radius: 18px;
+      line-height: 1.4;
+      font-size: 14px;
+      position: relative;
+    }
+    
+    .user-message {
+      background: var(--primary);
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+    
+    .bot-message {
+      background: white;
+      color: var(--text);
+      border: 1px solid #e5e7eb;
+      border-bottom-left-radius: 4px;
+      align-self: flex-start;
+    }
+    
+    /* Chat Footer */
+    .chat-footer {
+      padding: 15px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      gap: 10px;
+      background: white;
+    }
+    
+    .chat-footer input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 24px;
+      outline: none;
+      font-size: 14px;
+      transition: border 0.2s;
+    }
+    
+    .chat-footer input:focus {
+      border-color: var(--primary);
+    }
+    
+    .send-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    
+    .send-btn:hover {
+      background: var(--secondary);
+    }
+    
+    /* Chatbot Launcher */
+    .chatbot-launcher {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+    
+    .chatbot-launcher:hover {
+      transform: scale(1.1);
+      background: var(--secondary);
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Scrollbar */
+    .chat-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .chat-body::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    .chat-body::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 3px;
+    }
+    
+    .chat-body::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .section-header h2 {
+        font-size: 2rem;
+      }
+      
+      #chatbot-container {
+        width: 90%;
+        right: 5%;
+        height: 70vh;
+        bottom: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <h1>BizBot AI Assistant</h1>
+      <p>Revolutionizing DevOps with intelligent automation and real-time assistance</p>
+      <a href="#chatbot" class="cta-button">Try BizBot Now</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Powerful Features</h2>
+        <p>Discover how BizBot can transform your DevOps workflow with these advanced capabilities</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h3>AI-Powered Assistance</h3>
+          <p>Get intelligent suggestions for your DevOps challenges with our advanced AI algorithms trained on thousands of successful deployments.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3>Code Generation</h3>
+          <p>Automatically generate Dockerfiles, Kubernetes manifests, CI/CD pipelines and infrastructure as code templates.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bug"></i>
+          </div>
+          <h3>Error Diagnosis</h3>
+          <p>Paste error logs and get instant analysis with recommended solutions from our knowledge base of common DevOps issues.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-cloud"></i>
+          </div>
+          <h3>Multi-Cloud Support</h3>
+          <p>Get cloud-specific guidance for AWS, Azure, and Google Cloud with best practices for each platform.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Security Advisor</h3>
+          <p>Identify potential security vulnerabilities in your infrastructure and get remediation advice.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Performance Optimizer</h3>
+          <p>Receive recommendations to optimize your pipelines, containers, and cloud resources for maximum efficiency.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inspiration Section -->
+  <section class="inspiration">
+    <div class="container">
+      <h2>Inspiring Chatbot UI Tips</h2>
+      <p>Fuel your creativity with these design principles that make BizBot stand out</p>
+      
+      <div class="inspiration-grid">
+        <div class="inspiration-card">
+          <i class="fas fa-palette"></i>
+          <h3>Color Psychology</h3>
+          <p>Our blue gradient inspires trust and professionalism while maintaining approachability.</p>
+        </div>
+        
+        <div class="inspiration-card">
+          <i class="fas fa-comment-dots"></i>
+          <h3>Conversational Flow</h3>
+          <p>Carefully crafted dialogues that feel natural and human-like.</p>
+        </div>
+        
+        <div class="inspiration-card">
+          <i class="fas fa-mobile-alt"></i>
+          <h3>Responsive Design</h3>
+          <p>Perfectly adapted for all devices from desktop to mobile.</p>
+        </div>
+        
+        <div class="inspiration-card">
+          <i class="fas fa-bolt"></i>
+          <h3>Quick Actions</h3>
+          <p>Smart shortcuts and suggested replies for common queries.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <h2>What Developers Say</h2>
+        <p>Hear from DevOps professionals who transformed their workflow with BizBot</p>
+      </div>
+      
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"  BizBot reduced our deployment errors by 70% and helped our team learn modern DevOps practices faster than any training program."</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">JD</div>
+            <div class="author-info">
+              <h4>John Davis</h4>
+              <p>CTO, TechStart Inc.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"The AI's ability to generate Kubernetes configurations saved us hundreds of hours. It's like having a senior DevOps engineer available 24/7."</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">SM</div>
+            <div class="author-info">
+              <h4>Sarah Miller</h4>
+              <p>Lead DevOps, CloudScale</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"Our deployment times improved by 40% after implementing NovaTalk's optimization suggestions. The security recommendations are invaluable."</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar">RK</div>
+            <div class="author-info">
+              <h4>Raj Kumar</h4>
+              <p>Engineering Manager, FinTech Global</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Cases Section -->
+  <section class="use-cases">
+    <div class="container">
+      <div class="section-header">
+        <h2>Common Use Cases</h2>
+        <p>See how BizBot can help in real-world DevOps scenarios</p>
+      </div>
+      
+      <div class="use-cases-grid">
+        <div class="use-case-card">
+          <h3>CI/CD Pipeline Setup</h3>
+          <ul>
+            <li>Automated pipeline configuration</li>
+            <li>Error troubleshooting</li>
+            <li>Optimization recommendations</li>
+            <li>Integration guidance</li>
+          </ul>
+        </div>
+        
+        <div class="use-case-card">
+          <h3>Cloud Migration</h3>
+          <ul>
+            <li>Multi-cloud strategy planning</li>
+            <li>Resource provisioning</li>
+            <li>Cost optimization</li>
+            <li>Security best practices</li>
+          </ul>
+        </div>
+        
+        <div class="use-case-card">
+          <h3>Containerization</h3>
+          <ul>
+            <li>Dockerfile generation</li>
+            <li>Kubernetes manifest creation</li>
+            <li>Orchestration advice</li>
+            <li>Performance tuning</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing">
+    <div class="container">
+      <div class="section-header">
+        <h2>Simple Pricing</h2>
+        <p>Choose the plan that fits your DevOps needs</p>
+      </div>
+      
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3>Starter</h3>
+          <div class="price">$0 <span>/month</span></div>
+          <p>Perfect for individuals and small teams</p>
+          <ul class="pricing-features">
+            <li>Basic AI assistance</li>
+            <li>Limited queries per day</li>
+            <li>Community support</li>
+            <li>Standard response times</li>
+          </ul>
+          <button class="cta-button">Get Started</button>
+        </div>
+        
+        <div class="pricing-card featured">
+          <h3>Professional</h3>
+          <div class="price">$29 <span>/month</span></div>
+          <p>For growing teams and businesses</p>
+          <ul class="pricing-features">
+            <li>Advanced AI assistance</li>
+            <li>Unlimited queries</li>
+            <li>Priority support</li>
+            <li>Faster response times</li>
+            <li>Team collaboration</li>
+          </ul>
+          <button class="cta-button">Get Started</button>
+        </div>
+        
+        <div class="pricing-card">
+          <h3>Enterprise</h3>
+          <div class="price">Custom</div>
+          <p>For large organizations</p>
+          <ul class="pricing-features">
+            <li>Premium AI assistance</li>
+            <li>Unlimited queries</li>
+            <li>24/7 dedicated support</li>
+            <li>Custom integrations</li>
+            <li>On-premise options</li>
+          </ul>
+          <button class="cta-button">Contact Sales</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h3>BizBot</h3>
+          <p>Your intelligent AI assistant for all things DevOps, cloud, and deployment automation.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Features</h3>
+          <ul>
+            <li><a href="#">AI Assistance</a></li>
+            <li><a href="#">Code Generation</a></li>
+            <li><a href="#">Error Diagnosis</a></li>
+            <li><a href="#">Cloud Support</a></li>
+            <li><a href="#">Security Advisor</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Resources</h3>
+          <ul>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">API Reference</a></li>
+            <li><a href="#">Tutorials</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Community</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Company</h3>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2023 BizBot AI. All rights reserved. | Stand with <img src="palestine.png" alt="Palestine" style="width: 20px; vertical-align: middle;"> Free Palestine</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chatbot Container -->
+  <div id="chatbot-container">
+    <div class="chat-header">
+      <div class="bot-avatar">NT</div>
+      <div class="bot-info">
+        <h2>BizBot </h2>
+        <p>AI DevOps Assistant</p>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn"><i class="fas fa-info-circle"></i></button>
+        <button class="icon-btn" id="close-chatbot"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+    
+    <div class="chat-body" id="chat-box">
+      <div class="welcome-message bot-message">
+        <p><strong>BizBot :</strong> Hello! 🤖 How can I help you with DevOps today?</p>
+        <div class="quick-replies">
+          <button onclick="quickReply('Help with DevOps')">Help with DevOps</button>
+          <button onclick="quickReply('What is CI/CD?')">What is CI/CD?</button>
+          <button onclick="quickReply('Docker commands')">Docker commands</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="chat-footer">
+      <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
+      <button class="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <!-- Chatbot Launcher -->
+  <div class="chatbot-launcher" id="chatbotLauncher">
+    <i class="fas fa-robot"></i>
+  </div>
+
+  <script>
+    // Chatbot toggle functionality
+    const chatbotContainer = document.getElementById('chatbot-container');
+    const chatbotLauncher = document.getElementById('chatbotLauncher');
+    const closeChatbot = document.getElementById('close-chatbot');
+    
+    // Toggle chatbot visibility
+    chatbotLauncher.addEventListener('click', function() {
+      if (chatbotContainer.style.display === 'none' || !chatbotContainer.style.display) {
+        chatbotContainer.style.display = 'flex';
+        chatbotContainer.style.animation = 'fadeIn 0.3s ease';
+      } else {
+        chatbotContainer.style.display = 'none';
+      }
+    });
+    
+    // Close chatbot
+    closeChatbot.addEventListener('click', function() {
+      chatbotContainer.style.display = 'none';
+    });
+    
+    // Handle quick replies
+    function quickReply(text) {
+      document.getElementById('user-input').value = text;
+      sendMessage();
+    }
+    
+    // Handle Enter key
+    document.getElementById('user-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+    
+    // Messaging functionality
+    function sendMessage() {
+      const input = document.getElementById('user-input');
+      const chatBox = document.getElementById('chat-box');
+    
+      const userText = input.value.trim();
+      if (!userText) return;
+    
+      // Create user message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user-message';
+      userMsg.innerHTML = userText;
+      chatBox.appendChild(userMsg);
+    
+      // Clear input
+      input.value = '';
+      
+      // Scroll to bottom
+      chatBox.scrollTop = chatBox.scrollHeight;
+    
+      // Bot response after delay
+      setTimeout(() => {
+        const reply = getBotReply(userText.toLowerCase());
+        const botMsg = document.createElement('div');
+        botMsg.className = 'message bot-message';
+        botMsg.innerHTML = `<strong>Nova:</strong> ${reply}`;
+        chatBox.appendChild(botMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 600);
+    }
+    
+    function getBotReply(input) {
+      input = input.replace(/[?.!]/g, '').trim();
+    
+      if (input.includes('hello') || input.includes('hi')) 
+        return "Hi there! 👋 How can I assist you with DevOps today?";
+      if (input.includes('how are you')) 
+        return "I'm running smoothly in the cloud! ☁️ How can I help you?";
+      if (input.includes('your name')) 
+        return "I'm Nova, your AI DevOps assistant. Ask me about CI/CD, Docker, Kubernetes, or cloud platforms!";
+      if (input.includes('bye')) 
+        return "Goodbye! Feel free to return anytime you need DevOps assistance.";
+      if (input.includes('help')) 
+        return "I can help with DevOps concepts, tools, and best practices. What specifically do you need?";
+    
+      // DevOps-specific
+      if (input.includes('help me with devops') || input.includes('devops help')) 
+        return "Here's a quick roadmap:<br>1. Version Control (Git)<br>2. CI/CD (Jenkins/GitHub Actions)<br>3. Containers (Docker)<br>4. Orchestration (Kubernetes)<br>5. Cloud (AWS/Azure/GCP)";
+      
+      if (input.includes('what is devops')) 
+        return "DevOps combines software development (Dev) and IT operations (Ops) to shorten the development lifecycle while delivering features, fixes, and updates frequently.";
+      
+      if (input.includes('what is ci/cd') || input.includes('ci/cd')) 
+        return "CI/CD stands for Continuous Integration and Continuous Delivery. It automates building, testing, and deploying applications for rapid, reliable releases.";
+      
+      if (input.includes('what is docker') || input.includes('docker')) 
+        return "Docker is a platform for developing, shipping, and running applications in containers. Containers package code with all its dependencies.";
+      
+      if (input.includes('devops tools')) 
+        return "Popular DevOps tools include:<br>- Git/GitHub<br>- Jenkins/GitHub Actions<br>- Docker/Kubernetes<br>- Terraform/Ansible<br>- AWS/Azure/GCP<br>- Prometheus/Grafana";
+      
+      if (input.includes('how to deploy on aws') || input.includes('aws deploy')) 
+        return "AWS deployment options:<br>1. EC2 for apps<br>2. S3 for static sites<br>3. ECS/EKS for containers<br>4. Lambda for serverless<br>Use Terraform or CloudFormation for IaC.";
+    
+      return "That's an interesting question about DevOps! I'm still learning, but I can help with common DevOps topics like CI/CD, containers, or cloud deployment.";
+    }
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
