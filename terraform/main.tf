@@ -2,12 +2,12 @@ provider "aws" {
   region = "us-east-1"
 }
 
-# Get default VPC information
+# Get default VPC
 data "aws_vpc" "default" {
   default = true
 }
 
-# Security Group allowing HTTP and SSH
+# Security Group
 resource "aws_security_group" "chatbot_sg" {
   name        = "chatbot-security-group"
   description = "Allow HTTP and SSH traffic"
@@ -41,11 +41,11 @@ resource "aws_security_group" "chatbot_sg" {
   }
 }
 
-# EC2 Instance with Docker setup
+# EC2 Instance (using t2.nano to avoid vCPU limits)
 resource "aws_instance" "chatbot_app" {
   ami           = "ami-053b0d53c279acc90" # Ubuntu 22.04 LTS
-  instance_type = "t2.micro"
-  key_name      = "chatbot-key"       # Your existing key pair
+  instance_type = "t2.nano"               # Free tier eligible
+  key_name      = "chatbot-key"           # Your existing key pair
 
   vpc_security_group_ids = [aws_security_group.chatbot_sg.id]
 
