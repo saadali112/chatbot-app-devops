@@ -45,7 +45,7 @@ resource "aws_security_group" "chatbot_sg" {
 resource "aws_instance" "chatbot_app" {
   ami           = "ami-053b0d53c279acc90" # Ubuntu 22.04 LTS
   instance_type = "t2.micro"
-  key_name      = "chatbot-keypair"       # Your existing key pair
+  key_name      = "chatbot-key"       # Your existing key pair
 
   vpc_security_group_ids = [aws_security_group.chatbot_sg.id]
 
