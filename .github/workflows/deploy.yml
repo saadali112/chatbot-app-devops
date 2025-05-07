@@ -1,26 +1,23 @@
 name: Deploy to AWS EC2
-on:
-  push:
-    branches: [ "main" ]  # Triggers on pushes to main branch
+on: [push]
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # GitHub-hosted runner
+    runs-on: ubuntu-latest
 
     steps:
-      # Checkout your code
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # Install Terraform
       - name: Install Terraform
         run: |
+          # Forcefully remove existing files to avoid conflicts
+          rm -f terraform terraform_*.zip
+          # Download and install Terraform
           wget https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip
-          unzip terraform_1.5.7_linux_amd64.zip
+          unzip -o terraform_1.5.7_linux_amd64.zip
           sudo mv terraform /usr/local/bin/
-          terraform --version  # Verify installation
+          terraform --version
 
-      # Deploy with Terraform
       - name: Terraform Apply
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -28,5 +25,5 @@ jobs:
         run: |
           cd terraform
           terraform init
-          terraform validate  # Check for errors
+          terraform validate
           terraform apply -auto-approve
