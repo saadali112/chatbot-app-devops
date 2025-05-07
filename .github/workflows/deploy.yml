@@ -4,25 +4,27 @@ on: [push]
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./terraform  # All commands run in terraform directory
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create terraform directory
+      # Setup Terraform directory structure
+      - name: Prepare Terraform workspace
         run: |
           mkdir -p terraform
-          cp main.tf terraform/  # Copy your Terraform config file
-          cp variables.tf terraform/  # If you have variables file
-          cp terraform.tfvars terraform/  # If you have vars file
+          # Only copy files that exist
+          [ -f main.tf ] && cp main.tf terraform/
+          [ -f variables.tf ] && cp variables.tf terraform/ || true
+          [ -f terraform.tfvars ] && cp terraform.tfvars terraform/ || true
+          ls -la terraform/  # Verify contents
 
+      # Install Terraform (official method)
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: "1.5.7"
 
+      # Terraform steps
       - name: Terraform Init
         working-directory: ./terraform
         run: terraform init
