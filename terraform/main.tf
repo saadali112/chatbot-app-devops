@@ -1,57 +1,16 @@
+ECHO is on.
 provider "aws" {
   region = "us-east-1"
 }
 
-# Get default VPC
-data "aws_vpc" "default" {
-  default = true
-}
-
-# Security Group
-resource "aws_security_group" "chatbot_sg" {
-  name        = "chatbot-security-group"
-  description = "Allow HTTP and SSH traffic"
-  vpc_id      = data.aws_vpc.default.id
-
-  ingress {
-    description = "HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "Chatbot-Security-Group"
-  }
-}
-
-# EC2 Instance (using t2.nano to avoid vCPU limits)
 resource "aws_instance" "chatbot_app" {
-  ami           = "ami-053b0d53c279acc90" # Ubuntu 22.04 LTS
-  instance_type = "t2.nano"               # Free tier eligible
-  key_name      = "chatbot-key"           # Your existing key pair
-
-  vpc_security_group_ids = [aws_security_group.chatbot_sg.id]
-
+  ami           = "ami-053b0d53c279acc90" # Ubuntu 22.04
+  instance_type = "t2.micro"
+  key_name      = "chatbot-key"       # Your existing key pair
+  
   user_data = <<-EOF
               #!/bin/bash
-              sudo apt update -y
+              sudo apt update
               sudo apt install docker.io -y
               sudo systemctl start docker
               sudo docker run -d -p 80:80 your-dockerhub/chatbot-app
@@ -62,8 +21,21 @@ resource "aws_instance" "chatbot_app" {
   }
 }
 
-# Output the public IP
-output "instance_public_ip" {
-  value       = aws_instance.chatbot_app.public_ip
-  description = "Public IP of the EC2 instance"
+resource "aws_security_group" "allow_web" {
+  name        = "allow_http"
+  description = "Allow HTTP traffic"
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
