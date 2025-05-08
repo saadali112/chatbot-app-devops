@@ -1,4 +1,3 @@
-# Chatbot App DevOps 
 
 # 🚀 Static Chatbot Web App Deployment Using DevOps on AWS
 
