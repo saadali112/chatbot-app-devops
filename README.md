@@ -4,7 +4,6 @@
 
 A fully automated CI/CD pipeline to deploy a static chatbot web app to AWS S3, monitored by UptimeRobot. Built with GitHub Actions, Terraform, and AWS.
 
-![Architecture Diagram](assets/architecture.png) *(Example: Draw.io diagram showing GitHub → S3 → UptimeRobot flow)*
 
 ## 🌟 Features
 - **Zero-Touch Deployments**: Push code to GitHub → Auto-deployed to S3 via GitHub Actions.
