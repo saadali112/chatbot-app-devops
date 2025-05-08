@@ -1,26 +1,31 @@
-name: Deploy to AWS
-on: [push]
+name: Deploy Static Chatbot Web App to AWS S3
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment when changes are pushed to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger deployment on pull requests targeting the main branch
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-latest  # Running the job on the latest Ubuntu image
+
     steps:
-      - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v2  # Check out the repository code
 
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: "1.5.7"
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}  # GitHub Secrets for AWS Access Key
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  # GitHub Secrets for AWS Secret Access Key
+        aws-region: us-east-1  # Region of your S3 Bucket (change if necessary)
 
-      - name: Terraform Init
-        run: terraform -chdir=terraform init
-
-        - name: Terraform Apply
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-        run: |
-          terraform -chdir=terraform init
-          terraform -chdir=terraform apply -auto-approve
+    - name: Sync Files to S3
+      run: |
+        aws s3 sync ./frontend s3://myychatbot --delete --exact-timestamps
+        # Syncs the frontend folder to the S3 bucket (replace 'myychatbot' with your bucket name)
+        # The '--delete' flag ensures any deleted files from the repo are removed from S3
+        # The '--exact-timestamps' ensures files are only updated if there are changes

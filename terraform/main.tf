@@ -1,46 +1,52 @@
 provider "aws" {
-  region = "us-east-1"
+  region  = "us-east-1"       # or the region where your bucket exists
+  profile = "chatbot"
 }
 
-resource "aws_security_group" "chatbot_sg" {
-  name        = "chatbot-sg"
-  description = "Allow HTTP traffic"
+resource "aws_s3_bucket_website_configuration" "website" {
+  bucket = "myychatbot"       # Updated bucket name
 
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+  index_document {
+    suffix = "index.html"
   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+  error_document {
+    key = "index.html"
   }
 }
 
-resource "aws_instance" "chatbot_app" {
-  ami           = "ami-053b0d53c279acc90" # Ubuntu 22.04 LTS
-  instance_type = "t2.micro"
-  key_name      = "chatbot-key" # Must match the key you created
+resource "aws_s3_bucket_policy" "public_read" {
+  bucket = "myychatbot"       # Updated bucket name
 
-  vpc_security_group_ids = [aws_security_group.chatbot_sg.id]
-
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo apt-get update -y
-              sudo apt-get install docker.io -y
-              sudo systemctl start docker
-              sudo docker run -d -p 80:80 your-dockerhub-username/chatbot-app
-              EOF
-
-  tags = {
-    Name = "Chatbot-App"
-  }
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadGetObject"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "arn:aws:s3:::myychatbot/*"   # Updated bucket name
+      }
+    ]
+  })
 }
 
-output "instance_public_ip" {
-  value = aws_instance.chatbot_app.public_ip
+resource "aws_s3_object" "website_files" {
+  for_each = fileset("../chatbot-webapp-devops/frontend", "**")
+
+  bucket = "myychatbot"       # Updated bucket name
+  key    = each.value
+  source = "../chatbot-webapp-devops/frontend/${each.value}"
+  etag   = filemd5("../chatbot-webapp-devops/frontend/${each.value}")
+  content_type = lookup(
+    {
+      html = "text/html"
+      css  = "text/css"
+      js   = "application/javascript"
+      png  = "image/png"
+    },
+    split(".", each.value)[length(split(".", each.value)) - 1],
+    "text/plain"
+  )
 }
