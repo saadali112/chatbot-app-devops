@@ -3,9 +3,9 @@ provider "aws" {
 }
 
 resource "aws_instance" "chatbot_server" {
-  ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2 AMI (Free tier eligible)
-  instance_type = "t2.micro"
-  key_name      = "chatbot-key"           # ✅ Your key pair name
+  ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2 AMI
+  instance_type = "t3.nano"               # ✅ Changed from t2.micro to t3.nano
+  key_name      = "chatbot-key"           # ✅ Replace with your actual key name
 
   tags = {
     Name = "chatbot-server"
