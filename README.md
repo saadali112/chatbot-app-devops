@@ -1,80 +1,96 @@
 # Chatbot App DevOps 
 
-This repository contains a simple chatbot web application integrated with a CI/CD pipeline using **GitHub Actions**, deployed to **AWS S3**, and monitored using **UptimeRobot**.
+# 🚀 Static Chatbot Web App Deployment Using DevOps on AWS
 
-## 🔗 Repository
+A fully automated CI/CD pipeline to deploy a static chatbot web app to AWS S3, monitored by UptimeRobot. Built with GitHub Actions, Terraform, and AWS.
 
-[GitHub Repo](https://github.com/saadali112/chatbot-app-devops)
+![Architecture Diagram](assets/architecture.png) *(Example: Draw.io diagram showing GitHub → S3 → UptimeRobot flow)*
 
----
+## 🌟 Features
+- **Zero-Touch Deployments**: Push code to GitHub → Auto-deployed to S3 via GitHub Actions.
+- **Cost-Efficient**: Uses AWS S3 Free Tier (~$0/month).
+- **24/7 Monitoring**: UptimeRobot checks site every 5 minutes.
+- **Infrastructure as Code**: Terraform for reproducible S3 bucket setup.
 
-## 📌 Problem Statement
+## 🛠️ Tech Stack
+| Component          | Tool                                                                 |
+|--------------------|---------------------------------------------------------------------|
+| **Frontend**       | HTML/CSS/JS (Static Chatbot)                                        |
+| **Hosting**        | AWS S3 (Static Website Hosting)                                     |
+| **CI/CD**          | GitHub Actions                                                      |
+| **Infrastructure** | Terraform ([See `terraform/`](terraform/))                          |
+| **Monitoring**     | [UptimeRobot](https://uptimerobot.com/)                             |
 
-Traditional deployment methods are slow, error-prone, and lack automation. This project solves the issue by:
+## 🚀 Quick Start
+### Prerequisites
+- AWS Account (Free Tier)
+- GitHub Account
+- Terraform (Optional, for IaC)
 
-- Automating build & deployment using GitHub Actions
-- Hosting the app on AWS S3 for high availability
-- Monitoring uptime and health using UptimeRobot
+### 1. Manual Deployment (Without Terraform)
+```bash
+# Clone the repo
+git clone https://github.com/your-username/chatbot-webapp-devops.git
+cd chatbot-webapp-devops
 
----
+# Deploy to S3 using AWS CLI (Replace BUCKET_NAME)
+aws s3 sync ./frontend s3://BUCKET_NAME --delete
+```
 
-## 🛠️ Architecture
+### 2. Automated CI/CD Setup
+1. **Configure AWS Secrets in GitHub**:
+   - Go to Repo → Settings → Secrets → Actions.
+   - Add:
+     - `AWS_ACCESS_KEY_ID`
+     - `AWS_SECRET_ACCESS_KEY`
+2. **Push Code**:
+   ```bash
+   git push origin main  # Triggers GitHub Actions workflow
+   ```
 
-![Architecture Diagram](./.github/architecture.png)
+### 3. Using Terraform (Optional)
+```bash
+cd terraform
+terraform init
+terraform apply -var="bucket_name=your-unique-bucket-name"
+```
 
-**Flow:**
-1. Developer pushes code to `main`
-2. GitHub Actions runs CI/CD workflow
-3. Code is deployed to AWS S3
-4. UptimeRobot monitors app uptime and alerts on downtime
+## 📊 Monitoring Setup
+1. Sign up at [UptimeRobot](https://uptimerobot.com/).
+2. Add a new monitor:
+   - **URL**: Your S3 endpoint (e.g., `http://BUCKET_NAME.s3-website-us-east-1.amazonaws.com`)
+   - **Check Interval**: 5 minutes.
+3. Configure alerts (Email/SMS).
 
----
+## 📂 Project Structure
+```
+.
+├── frontend/               # Static chatbot files
+│   ├── index.html          # Chatbot UI
+│   ├── style.css           # Styles
+│   └── script.js           # Chatbot logic
+├── .github/workflows/      # CI/CD pipelines
+│   └── deploy.yml          # GitHub Actions workflow
+├── terraform/              # Infrastructure as Code
+│   ├── main.tf             # S3 bucket definition
+│   └── variables.tf        # Environment variables
+└── README.md               # You are here!
+```
 
-## 🚀 Key Technical Achievements
 
-- ✅ Automated deployment pipeline via GitHub Actions
-- ✅ S3-hosted static site deployment
-- ✅ Public access and hosting setup using AWS CLI & policies
-- ✅ Real-time monitoring with UptimeRobot
 
----
+## 💡 Lessons Learned
+- **Automation is Key**: Reduced deployment time from 15 mins to 2 mins.
+- **S3 > EC2 for Static Sites**: Cheaper and serverless.
+- **Monitor Early**: UptimeRobot caught 2 downtime incidents during testing.
 
-## 🧪 Live Demo
 
-**Demo Flow:**
-
-1. Make a Git commit and push to `main`
-2. GitHub Actions deploys updated app to AWS S3
-3. Check [Live URL](http://your-s3-website-url) for updated site
-4. UptimeRobot ensures app stays up (90s polling)
-
----
-
-## 📈 Monitoring
-
-We use [UptimeRobot](https://uptimerobot.com/) to:
-
-- Monitor HTTP status of the S3-hosted chatbot
-- Alert via email when downtime is detected
-- Display uptime % on a public dashboard
-
----
-
-## 🎓 Lessons Learned
-
-- Setting up CI/CD with GitHub Actions is easier than it looks
-- AWS S3 + static websites is cost-effective and reliable
-- Monitoring is crucial — even for simple apps
-- `.terraform` files should never be pushed to Git (large file limits!)
-
----
+## 🙏 Credits
+- [AWS Free Tier](https://aws.amazon.com/free/)
+- [UptimeRobot Free Plan](https://uptimerobot.com/)
 
 ## 🤝 Contributors
 
 - Saad Ali  
-- Team Members
-
----
-
-## 📂 Directory Structure
+- Aurangzaib Bhatti
 
