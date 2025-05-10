@@ -71,7 +71,7 @@ terraform apply -var="bucket_name=your-unique-bucket-name"
 │   └── deploy.yml          # GitHub Actions workflow
 ├── terraform/              # Infrastructure as Code
 │   ├── main.tf             # S3 bucket definition
-│   └── variables.tf        # Environment variables
+│    
 └── README.md               # You are here!
 ```
 
